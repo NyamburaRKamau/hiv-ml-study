@@ -1,0 +1,32 @@
+experiment_name: who_hiv_forecast_africa_vs_global_v1
+arm: C
+
+data:
+  csv_dir: data/who_timeseries
+  # Verify against actual downloaded file -- imdevskp's Kaggle HIV dataset
+  # ships multiple CSVs (e.g. "hiv prevalence.csv", "no_of_people_living_with_hiv.csv");
+  # pick the one with country + year + value columns for this arm
+  country_column: Country
+  year_column: Year
+  value_column: Value            # e.g. HIV prevalence or people-living-with-HIV count
+  african_countries_list: configs/african_countries.yaml
+  min_years_per_country: 8        # exclude countries with too few time points to forecast
+  lag_features: 3                 # use t-1, t-2, t-3 as predictors of t
+  test_years: 3                   # last N years per country held out for forecast testing
+
+model:
+  algorithm: xgboost
+  xgboost:
+    n_estimators: 200
+    max_depth: 4
+    learning_rate: 0.05
+
+evaluation:
+  metrics: [mae, rmse, mape]
+  bootstrap_ci: true
+  n_bootstrap: 1000
+  compare_groups: [africa, non_africa]   # the core generalizability comparison
+
+output:
+  results_dir: results/arm_c_who_forecast
+  save_model: true

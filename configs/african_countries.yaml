@@ -1,0 +1,62 @@
+# Standard list of African countries/territories for grouping in Arm C.
+# Uses common English short names as they typically appear in WHO/UNESCO
+# country-year datasets. Update to match exact naming in your downloaded
+# CSV (e.g. "Congo, Dem. Rep." vs "Democratic Republic of the Congo") --
+# the pipeline will print any Africa-list names it couldn't match to the
+# actual data so mismatches are caught, not silently dropped.
+
+african_countries:
+  - Algeria
+  - Angola
+  - Benin
+  - Botswana
+  - Burkina Faso
+  - Burundi
+  - Cabo Verde
+  - Cameroon
+  - Central African Republic
+  - Chad
+  - Comoros
+  - Congo
+  - Democratic Republic of the Congo
+  - Djibouti
+  - Egypt
+  - Equatorial Guinea
+  - Eritrea
+  - Eswatini
+  - Ethiopia
+  - Gabon
+  - Gambia
+  - Ghana
+  - Guinea
+  - Guinea-Bissau
+  - Ivory Coast
+  - Kenya
+  - Lesotho
+  - Liberia
+  - Libya
+  - Madagascar
+  - Malawi
+  - Mali
+  - Mauritania
+  - Mauritius
+  - Morocco
+  - Mozambique
+  - Namibia
+  - Niger
+  - Nigeria
+  - Rwanda
+  - Sao Tome and Principe
+  - Senegal
+  - Seychelles
+  - Sierra Leone
+  - Somalia
+  - South Africa
+  - South Sudan
+  - Sudan
+  - Tanzania
+  - Togo
+  - Tunisia
+  - Uganda
+  - Zambia
+  - Zimbabwe

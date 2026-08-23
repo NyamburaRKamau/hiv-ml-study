@@ -1,0 +1,37 @@
+experiment_name: actg175_treatment_outcome_v1
+arm: A
+
+data:
+  csv_dir: data/actg175
+  # ACTG175 standard columns (verify against your actual downloaded file --
+  # Kaggle re-uploads sometimes rename columns slightly)
+  target_column: cid          # censoring indicator: 1 = event (disease progression/death), 0 = censored
+  categorical_columns: [hemo, homo, drugs, karnof, oprior, z30, zprior, race, gender, str2, symptom, treat, offtrt]
+  numeric_columns: [age, wtkg, preanti, cd40, cd420, cd80, cd820]
+  drop_columns: [pidnum]        # patient ID, not a feature
+  test_split: 0.2
+  cv_folds: 5                    # stratified k-fold for rigorous validation
+
+model:
+  algorithms: [random_forest, xgboost, logistic_regression]
+  random_forest:
+    n_estimators: 300
+    max_depth: 8
+  xgboost:
+    n_estimators: 300
+    max_depth: 5
+    learning_rate: 0.05
+  logistic_regression:
+    max_iter: 1000
+    class_weight: balanced
+
+evaluation:
+  metrics: [accuracy, precision, recall, f1, auc]
+  bootstrap_ci: true
+  n_bootstrap: 1000
+  compute_shap: true
+  report_per_fold: true          # deliberately reports EVERY fold, not just best
+
+output:
+  results_dir: results/arm_a_actg175
+  save_model: true

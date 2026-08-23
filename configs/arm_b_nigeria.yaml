@@ -1,0 +1,43 @@
+experiment_name: nigeria_medical_fitness_prediction_v1
+arm: B
+
+data:
+  csv_dir: data/nigeria_clinical
+  # Verify these exactly against the downloaded file -- confirm the header
+  # row matches (Mendeley CSVs sometimes use abbreviations described in the
+  # dataset README, e.g. "F" for fever, "D" for diarrhea)
+  target_column: medical_fitness   # placeholder -- confirm real column name (may be "MF")
+  categorical_columns: [fever, diarrhea, abdominal_pain, skin_rash, mouth_sour,
+                          cellulitis, cough_sputum, loss_of_appetite,
+                          genital_infections, headache, catarrh, weight_loss,
+                          excessive_sweat, body_weakness, gender]
+  numeric_columns: [age]
+  test_split: 0.2
+  cv_folds: 5
+
+model:
+  algorithms: [random_forest, xgboost, logistic_regression]
+  random_forest:
+    n_estimators: 200
+    max_depth: 6                  # shallower than Arm A -- much smaller dataset (n=138)
+  xgboost:
+    n_estimators: 200
+    max_depth: 4
+    learning_rate: 0.05
+  logistic_regression:
+    max_iter: 1000
+    class_weight: balanced
+
+evaluation:
+  metrics: [accuracy, precision, recall, f1, auc]
+  bootstrap_ci: true
+  n_bootstrap: 1000
+  compute_shap: true
+  report_per_fold: true
+  small_sample_warning_threshold: 200   # flags results if n < this, given known
+                                          # overfitting pattern in similar small
+                                          # African clinical HIV datasets
+
+output:
+  results_dir: results/arm_b_nigeria
+  save_model: true
